@@ -81,14 +81,14 @@ public class MainActivity extends Activity implements SelectionListener {
 
 		if (!mIsFresh) {
 
-			// TODO:
+			// DONE:
 			// Show a Toast Notification to inform user that 
 			// the app is "Downloading Tweets from Network"
 			log("Issuing Toast Message");
 			Toast.makeText(getApplicationContext(), "Downloading Tweets from Network", Toast.LENGTH_LONG).show();
 			
 			
-			// TODO:
+			// DONE:
 			// Start new AsyncTask to download Tweets from network
 			// We use the DownloaderTask class which inherits from AsyncTask
 			// Then we call execute with the list of URL strings as params
@@ -105,7 +105,7 @@ public class MainActivity extends Activity implements SelectionListener {
 
 					log("BroadcastIntent received in MainActivity");
 
-					// TODO:				
+					// DONE:				
 					// Check to make sure this is an ordered broadcast
 					// Let sender know that the Intent was received
 					// by setting result code to RESULT_OK
@@ -181,7 +181,7 @@ public class MainActivity extends Activity implements SelectionListener {
 	protected void onResume() {
 		super.onResume();
 
-		// TODO:
+		// DONE:
 		// Register the BroadcastReceiver to receive a 
 		// DATA_REFRESHED_ACTION broadcast
 		
@@ -197,7 +197,7 @@ public class MainActivity extends Activity implements SelectionListener {
 	@Override
 	protected void onPause() {
 
-		// TODO:
+		// DONE:
 		// Unregister the BroadcastReceiver
 		
 		if(mRefreshReceiver != null){

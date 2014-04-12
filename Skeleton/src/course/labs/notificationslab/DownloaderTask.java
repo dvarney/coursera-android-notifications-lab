@@ -163,11 +163,11 @@ public class DownloaderTask extends AsyncTask<String, Void, String[]> {
 
 						log("Entered result receiver's onReceive() method");
 
-						// TODO: Check whether the result code is *not* RESULT_OK
+						// DONE: Check whether the result code is *not* RESULT_OK
 
 						if (getResultCode() != Activity.RESULT_OK) {
 
-							// TODO:  If so, create a PendingIntent using the
+							// DONE:  If this is the case, create a PendingIntent using the
 							// restartMainActivityIntent and set its flags
 							// to FLAG_UPDATE_CURRENT
 							
@@ -187,7 +187,7 @@ public class DownloaderTask extends AsyncTask<String, Void, String[]> {
 									mApplicationContext.getPackageName(),
 									R.layout.custom_notification);
 
-							// TODO: Set the notification View's text to
+							// DONE: Set the notification View's text to
 							// reflect whether or the download completed
 							// successfully
 							
@@ -198,7 +198,7 @@ public class DownloaderTask extends AsyncTask<String, Void, String[]> {
 							}
 
 							
-							// TODO: Use the Notification.Builder class to
+							// DONE: Use the Notification.Builder class to
 							// create the Notification. You will have to set
 							// several pieces of information. You can use
 							// android.R.drawable.stat_sys_warning
@@ -217,9 +217,10 @@ public class DownloaderTask extends AsyncTask<String, Void, String[]> {
 										.setContent(mContentView) 
 										.setContentIntent(pendingIntent);
 
-							// TODO: Send the notification
+							// DONE: Send the notification
 							
 							// get the NotificationManager from the system
+							// call notify()
 							NotificationManager mNotifyMgr = 
 							        (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 							mNotifyMgr.notify(MY_NOTIFICATION_ID, notificationBuilder.build());
