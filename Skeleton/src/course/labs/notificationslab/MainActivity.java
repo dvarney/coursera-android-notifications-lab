@@ -19,6 +19,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 public class MainActivity extends Activity implements SelectionListener {
 
@@ -83,14 +84,17 @@ public class MainActivity extends Activity implements SelectionListener {
 			// TODO:
 			// Show a Toast Notification to inform user that 
 			// the app is "Downloading Tweets from Network"
-			log ("Issuing Toast Message");
-
+			log("Issuing Toast Message");
+			Toast.makeText(getApplicationContext(), "Downloading Tweets from Network", Toast.LENGTH_LONG).show();
 			
 			
 			// TODO:
 			// Start new AsyncTask to download Tweets from network
-
-
+			// We use the DownloaderTask class which inherits from AsyncTask
+			// Then we call execute with the list of URL strings as params
+			
+			DownloaderTask downTask = new DownloaderTask(this);
+			downTask.execute(new String[] {URL_TSWIFT, URL_RBLACK, URL_LGAGA});
 
 			
 			// Set up a BroadcastReceiver to receive an Intent when download
@@ -105,7 +109,8 @@ public class MainActivity extends Activity implements SelectionListener {
 					// Check to make sure this is an ordered broadcast
 					// Let sender know that the Intent was received
 					// by setting result code to RESULT_OK
-
+					if( isOrderedBroadcast() )
+						setResultCode(RESULT_OK);
 
 				}
 			};
@@ -179,8 +184,13 @@ public class MainActivity extends Activity implements SelectionListener {
 		// TODO:
 		// Register the BroadcastReceiver to receive a 
 		// DATA_REFRESHED_ACTION broadcast
-
-
+		
+		// first we need to create an IntentFilter for the specific action
+		IntentFilter filter = new IntentFilter();
+		filter.addAction(DATA_REFRESHED_ACTION);
+		
+		registerReceiver(mRefreshReceiver, filter);
+		
 		
 	}
 
@@ -189,8 +199,10 @@ public class MainActivity extends Activity implements SelectionListener {
 
 		// TODO:
 		// Unregister the BroadcastReceiver
-
-
+		
+		if(mRefreshReceiver != null){
+			unregisterReceiver(mRefreshReceiver);
+		}
 		
 		
 		super.onPause();
