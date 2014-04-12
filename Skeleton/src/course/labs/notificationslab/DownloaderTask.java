@@ -163,15 +163,19 @@ public class DownloaderTask extends AsyncTask<String, Void, String[]> {
 
 						log("Entered result receiver's onReceive() method");
 
-						// TODO: Check whether the result code is RESULT_OK
+						// TODO: Check whether the result code is *not* RESULT_OK
 
-						if (/*change this*/ true) {
+						if (getResultCode() != Activity.RESULT_OK) {
 
 							// TODO:  If so, create a PendingIntent using the
 							// restartMainActivityIntent and set its flags
 							// to FLAG_UPDATE_CURRENT
 							
-							final PendingIntent pendingIntent = null;
+							// getActivity() is used to start an Activity
+							final PendingIntent pendingIntent = PendingIntent.getActivity(mApplicationContext, 
+																						  0,
+																						  restartMainActivtyIntent,
+																						  PendingIntent.FLAG_UPDATE_CURRENT);
 							
 
 
@@ -186,7 +190,12 @@ public class DownloaderTask extends AsyncTask<String, Void, String[]> {
 							// TODO: Set the notification View's text to
 							// reflect whether or the download completed
 							// successfully
-
+							
+							if(success){
+								mContentView.setTextViewText(R.id.text, successMsg);
+							} else {
+								mContentView.setTextViewText(R.id.text, failMsg);
+							}
 
 							
 							// TODO: Use the Notification.Builder class to
@@ -194,12 +203,26 @@ public class DownloaderTask extends AsyncTask<String, Void, String[]> {
 							// several pieces of information. You can use
 							// android.R.drawable.stat_sys_warning
 							// for the small icon. You should also setAutoCancel(true). 
-
-							Notification.Builder notificationBuilder = null;
+							
+							// See: http://developer.android.com/training/notify-user/build-notification.html
+							
+							// Set the content to the RemoteViews obj from above because
+							// that obj already has the text.
+							// Set the pendingIntent so that when you click on the notification
+							// it will trigger the action within the Intent (loading of tweets)
+							Notification.Builder notificationBuilder = 
+									new Notification.Builder(mApplicationContext)
+										.setAutoCancel(true)
+										.setSmallIcon(android.R.drawable.stat_sys_warning)
+										.setContent(mContentView) 
+										.setContentIntent(pendingIntent);
 
 							// TODO: Send the notification
-
 							
+							// get the NotificationManager from the system
+							NotificationManager mNotifyMgr = 
+							        (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+							mNotifyMgr.notify(MY_NOTIFICATION_ID, notificationBuilder.build());
 							
 							log("Notification Area Notification sent");
 						}
